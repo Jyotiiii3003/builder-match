@@ -3,6 +3,8 @@ import SectionHeading from "../../components/common/SectionHeading/SectionHeadin
 import StatCard from "../../components/dashboard/StatCard";
 import BuilderCard from "../../components/builders/BuilderCard";
 import builders from "../../data/builders";
+import EventCard from "../../components/dashboard/EventCard";
+import events from "../../data/events";
 
 function Dashboard() {
   return (
@@ -23,6 +25,23 @@ function Dashboard() {
           <StatCard title="Pending Sync" value="4" />
         </div>
       </section>
+
+      <section>
+  <SectionHeading
+    title="Trending Hackathons"
+    subtitle="Find events and start building with your next team."
+  />
+
+  <div className="grid grid-cols-2 gap-6">
+    {events.map((event) => (
+      <EventCard
+        key={event.id}
+        event={event}
+      />
+    ))}
+  </div>
+</section>
+
 
       <section>
         <SectionHeading
