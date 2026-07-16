@@ -1,33 +1,37 @@
 import { create } from "zustand";
-
+import useSyncQueue from "./useSyncQueue";
 const useBuilderStore = create((set) => ({
   connectedBuilders: [],
 
   connectBuilder: async (id) => {
-    // Optimistic Update
-    set((state) => ({
-      connectedBuilders: [...state.connectedBuilders, id],
-    }));
+  set((state) => ({
+    connectedBuilders: [...state.connectedBuilders, id],
+  }));
 
-    try {
-      // Fake API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+  if (!navigator.onLine) {
+    useSyncQueue.getState().addToQueue({
+      type: "CONNECT",
+      builderId: id,
+      timestamp: Date.now(),
+    });
 
-      // Simulate random failure (20%)
-      if (Math.random() < 0.2) {
-        throw new Error("Connection Failed");
-      }
-    } catch {
-      // Rollback
-      set((state) => ({
-        connectedBuilders: state.connectedBuilders.filter(
-          (builderId) => builderId !== id
-        ),
-      }));
+    return;
+  }
 
-      alert("Connection failed. Please try again.");
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    if (Math.random() < 0.2) {
+      throw new Error();
     }
-  },
+  } catch {
+    set((state) => ({
+      connectedBuilders: state.connectedBuilders.filter(
+        (builderId) => builderId !== id
+      ),
+    }));
+  }
+},
 }));
 
 export default useBuilderStore;
