@@ -10,12 +10,13 @@ function HeroSection() {
         </p>
 
         <h1 className="mt-4 font-['Poppins'] text-5xl font-bold leading-tight text-[var(--text)]">
-          Build your next winning hackathon team.
+            Meet builders.
+            Create teams.
+            Win hackathons.
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-[var(--text-muted)]">
-          Discover developers, designers and Web3 builders around you.
-          Connect instantly and build together.
+         Discover talented developers, designers and Web3 innovators around you. Connect instantly and start building together.
         </p>
 
         <div className="mt-8 flex gap-4">
