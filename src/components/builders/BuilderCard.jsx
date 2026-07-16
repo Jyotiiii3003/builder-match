@@ -4,11 +4,14 @@ import {
   CircleCheck,
   Globe,
 } from "lucide-react";
-
+import useBuilderStore from "../../store/useBuilderStore";
 import Card from "../common/Card/Card";
 import Button from "../common/Button/Button";
 
 function BuilderCard({ builder }) {
+  const { connectedBuilders, connectBuilder } = useBuilderStore();
+
+const connected = connectedBuilders.includes(builder.id);
   return (
     <Card className="group">
 
@@ -66,8 +69,11 @@ function BuilderCard({ builder }) {
           Portfolio
         </button>
 
-        <Button className="px-5 py-2">
-          Connect
+        <Button
+          onClick={() => connectBuilder(builder.id)}
+          variant={connected ? "secondary" : "primary"}
+          >
+          {connected ? "Connected" : "Connect"}
         </Button>
 
       </div>

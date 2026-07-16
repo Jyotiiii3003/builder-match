@@ -5,7 +5,7 @@ const builders = [
     role: "Frontend Engineer",
     location: "Delhi",
     skills: ["React", "Next.js", "Tailwind"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Aarav",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Aarav",
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ const builders = [
     role: "Blockchain Engineer",
     location: "Bengaluru",
     skills: ["Solidity", "Rust", "Hardhat"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Sarah",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Sarah",
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ const builders = [
     role: "UI/UX Designer",
     location: "Mumbai",
     skills: ["Figma", "Design Systems", "Prototyping"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Rohan",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Rohan",
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ const builders = [
     role: "Backend Engineer",
     location: "Pune",
     skills: ["Node.js", "Express", "MongoDB"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Priya",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Priya",
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const builders = [
     role: "AI Engineer",
     location: "Hyderabad",
     skills: ["Python", "TensorFlow", "FastAPI"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Kabir",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Kabir",
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ const builders = [
     role: "Flutter Developer",
     location: "Kolkata",
     skills: ["Flutter", "Firebase", "Dart"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Ananya",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Ananya",
   },
   {
     id: 7,
@@ -53,7 +53,7 @@ const builders = [
     role: "Full Stack Developer",
     location: "Noida",
     skills: ["React", "Node.js", "PostgreSQL"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Aditya",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Aditya",
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ const builders = [
     role: "DevOps Engineer",
     location: "Chennai",
     skills: ["Docker", "AWS", "Kubernetes"],
-    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Neha",
+    avatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Neha",
   },
 ];
 
