@@ -1,1023 +1,235 @@
-# Builder Match
-
-<p align="center">
+# Builder Match — Frontend Systems Challenge
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
-![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=for-the-badge&logo=tailwindcss)
 ![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange?style=for-the-badge)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-Animations-black?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-</p>
+A builder-networking app for hackathons: a participant scans another builder's
+QR code, the connection appears **instantly** in the UI regardless of network
+quality, and synchronization is reconciled in the background — all without a
+backend, treating this as a frontend systems problem rather than a UI exercise.
 
-<p align="center">
+**Live:** https://builder-match.vercel.app
+**Challenge:** Genesis Frontend Engineering Challenge — "5,000 concurrent builders, unreliable connectivity"
 
-### Find your perfect hackathon teammate.
-
-A frontend-first builder networking platform built for the **Genesis Frontend Engineering Challenge**.
-
-</p>
-
----
-
-# Live Demo
-
-**Live Application**
-
-https://builder-match.vercel.app/
-
-**GitHub Repository**
-
-https://github.com/Jyotiiii3003/builder-match
-
----
-
-# Problem Statement
-
-Hackathons are extremely social environments.
-
-People constantly meet new developers, designers and blockchain builders, but the actual process of exchanging information is surprisingly inefficient.
-
-Typical problems include:
-
-- losing contact after a conversation
-- manually sharing GitHub or LinkedIn
-- poor internet connectivity
-- difficulty finding teammates with specific skills
-- slow onboarding during events
-
-Builder Match approaches this as a frontend systems problem rather than simply a UI exercise.
-
-The application allows builders to quickly discover other participants, connect instantly through QR codes, manage their own team, and continue working even under unreliable network conditions.
-
-Rather than treating each feature independently, the application is designed around a realistic scenario:
-
-> Two builders meet during a crowded hackathon with unstable Wi-Fi. They should be able to connect immediately, receive visual confirmation instantly, and trust that synchronization will happen later without needing to repeat the interaction.
-
-This scenario influenced almost every architectural decision throughout the project.
+```
+builder-match/
+├── index.html
+├── vite.config.js
+├── src/
+│   ├── pages/              # Dashboard, Builders, Scanner, Team, Settings — orchestration only
+│   ├── components/
+│   │   ├── builders/       # BuilderCard, filters — presentational, prop-driven
+│   │   ├── dashboard/      # StatCard, EventCard, HeroSection
+│   │   ├── layout/         # Sidebar, Header — persistent across routes
+│   │   └── common/         # Button, Card, SectionHeading
+│   ├── layouts/            # MainLayout + <Outlet />
+│   ├── routes/             # React Router route table
+│   ├── store/              # Zustand: builderStore, offlineQueueStore
+│   ├── data/                # builders.js, events.js — mock backend, isolated
+│   ├── hooks/
+│   ├── constants/
+│   └── lib/
+└── public/
+```
 
 ---
 
-# Features
+## System architecture
 
-## Dashboard
+Builder Match follows a **component-driven frontend architecture** with five
+layers, each with a single responsibility. Nothing above the data layer knows
+where its data comes from, which is what keeps a future backend migration
+additive rather than a rewrite.
 
-The dashboard provides an overview of the builder ecosystem.
-
-It includes
-
-- Hero section
-- Platform statistics
-- Featured builders
-- Trending hackathons
-- Community activity
-- Quick navigation
-
----
-
-## Builder Directory
-
-The Builder Directory is the core feature of the application.
-
-Capabilities include
-
-- Search builders by name
-- Search by role
-- Search by skills
-- Skill filters
-- Sorting
-- Optimized rendering
-- Connect with builders
-- GitHub profile access
-- Availability indicators
-
----
-
-## QR Scanner
-
-Builder Match supports QR-based networking.
-
-Features include
-
-- Camera access
-- QR code scanning
-- Instant connection
-- Success state
-- Retry scan
-- Loading state
-
----
-
-## Team Management
-
-Builders can create their own hackathon team.
-
-Current implementation supports
-
-- Connected builders
-- Team progress
-- Builder skills
-- Team readiness
-- Connection tracking
-
----
-
-## Settings
-
-The settings page demonstrates reusable UI architecture.
-
-Includes
-
-- Profile
-- Notifications
-- Offline sync
-- Device information
-- Security overview
-- Theme controls
-
----
-
-# Tech Stack
-
-| Technology | Why it was selected |
-|------------|--------------------|
-| React 19 | Component-driven architecture with efficient rendering |
-| Vite | Extremely fast development server and optimized production builds |
-| Tailwind CSS | Rapid UI development with consistent design tokens |
-| React Router | Nested layouts and clean page organization |
-| Zustand | Lightweight state management without Redux boilerplate |
-| Framer Motion | High-performance animations while keeping components declarative |
-| Lucide React | Consistent icon system |
-| HTML5 QRCode | Camera-based QR scanning without native dependencies |
-| TanStack Virtual | Efficient rendering strategy for large builder datasets |
-
----
-
-# Project Philosophy
-
-This project intentionally prioritizes **frontend architecture** over backend complexity.
-
-Rather than building authentication, databases, or REST APIs, the focus is on solving problems that frontend engineers regularly encounter:
-
-- managing complex UI state
-- rendering large datasets efficiently
-- maintaining responsiveness
-- optimistic interactions
-- offline-first thinking
-- reusable component architecture
-
-Every major feature was implemented with scalability and maintainability in mind rather than simply satisfying the visual requirements.
-
----
-
-# Design Principles
-
-The UI follows a modern pastel SaaS design language.
-
-Key characteristics include
-
-- soft gradients
-- rounded interfaces
-- subtle shadows
-- consistent spacing
-- responsive layouts
-- reusable components
-- smooth animations
-- minimal visual noise
-
-Typography intentionally varies between sections to establish hierarchy while maintaining a cohesive visual identity.
-
----
-
-# What This Project Demonstrates
-
-Instead of demonstrating isolated React knowledge, Builder Match focuses on demonstrating engineering decisions.
-
-Specifically:
-
-- component architecture
-- reusable UI systems
-- scalable folder organization
-- state management
-- optimistic updates
-- offline synchronization concepts
-- rendering optimization
-- production-ready project organization
-- maintainable frontend code
-
-These decisions are explained in detail throughout the following sections of this document.
-
----
-
-# System Architecture
-
-## Architectural Overview
-
-Builder Match follows a **component-driven frontend architecture** where each layer has a single responsibility. Rather than coupling UI, state, and data together, the application separates them into independent modules, making the project easier to maintain, test, and extend.
-
-The application is intentionally frontend-first. Instead of relying on a backend to demonstrate architecture, it focuses on solving frontend engineering problems such as rendering efficiency, reusable components, optimistic interactions, offline synchronization, and scalable state management.
-
-The architecture can be viewed as five distinct layers:
-
-1. Routing Layer
-2. Layout Layer
-3. Presentation Layer
-4. State Layer
-5. Data Layer
-
----
-
-## High-Level Architecture
-
-```mermaid
+```
 flowchart TD
 
-A[User]
-
-A --> B[React Router]
-
-B --> C[Main Layout]
+A[User] --> B[React Router]
+B --> C[MainLayout: Sidebar + Header]
 
 C --> D[Dashboard]
-
 C --> E[Builders]
-
 C --> F[Scanner]
-
 C --> G[Team]
-
 C --> H[Settings]
 
-D --> I[Reusable Components]
-
+D --> I[Presentation components]
 E --> I
-
 F --> I
-
 G --> I
-
 H --> I
 
-I --> J[Zustand Stores]
+I --> J[Zustand stores]
+J --> K[builderStore]
+J --> L[offlineQueueStore]
 
-J --> K[Builder Store]
-
-J --> L[Offline Queue]
-
-I --> M[Mock Data]
+I --> M[Data layer: builders.js / events.js]
 ```
 
----
+| Layer | Owns | Does not own |
+|---|---|---|
+| **Routing** (`routes/`, React Router) | URL → page mapping, nested layouts via `Outlet` | Page content, state |
+| **Layout** (`Sidebar`, `Header`) | Persistent chrome across navigation, rendered once | Route-specific data |
+| **Presentation** (`components/`) | How something looks; pure, prop-driven | Where its data comes from |
+| **State** (`store/`) | `builderStore` (connections), `offlineQueueStore` (pending sync) | Rendering, data shape |
+| **Data** (`data/`) | Mock records shaped like a future API response | UI concerns |
 
-# Routing Layer
-
-Navigation is handled using **React Router DOM** with nested layouts.
-
-Instead of duplicating navigation and page wrappers across every screen, the application uses a shared `MainLayout` that renders the Sidebar, Header and page content using React Router's `Outlet`.
-
-```
-BrowserRouter
-
-↓
-
-MainLayout
-
-↓
-
-Outlet
-
-↓
-
-Dashboard
-Builders
-Scanner
-Team
-Settings
-```
-
-Benefits
-
-- Consistent layout
-- Reusable navigation
-- Cleaner page components
-- Easy route expansion
-
----
-
-# Layout Layer
-
-The layout layer contains components that remain persistent while users navigate.
-
-Examples include
-
-- Sidebar
-- Header
-
-These components are rendered once and shared across every page.
-
-This avoids unnecessary remounting and creates a smoother navigation experience.
-
----
-
-# Presentation Layer
-
-The presentation layer contains reusable UI components.
-
-Examples include
+**Component communication is strictly one-way:**
 
 ```
-Button
-
-Card
-
-SectionHeading
-
-BuilderCard
-
-StatCard
-
-EventCard
-
-HeroSection
-```
-
-Each component is designed around a single responsibility.
-
-For example
-
-The `BuilderCard` is responsible only for presenting builder information.
-
-It has no knowledge about routing or application state.
-
-Instead, it receives data through props.
-
-This makes the component
-
-- reusable
-- predictable
-- easy to test
-
----
-
-# State Layer
-
-Global state is intentionally kept small.
-
-Instead of introducing Redux, the project uses Zustand because the application has only two pieces of truly shared state.
-
-## Builder Store
-
-Responsible for
-
-- connected builders
-- optimistic connect actions
-
-The UI updates immediately after clicking **Connect**, creating a responsive user experience.
-
----
-
-## Offline Queue
-
-Responsible for
-
-- pending synchronization actions
-
-Rather than removing optimistic updates when synchronization cannot happen immediately, pending actions are stored inside an offline queue.
-
-This reflects how a production application would behave under unreliable network conditions.
-
-The UI remains responsive while synchronization can occur later.
-
-Separating this queue into its own store prevents synchronization logic from polluting presentation components.
-
----
-
-# Data Layer
-
-The application currently uses mock data to focus on frontend architecture.
-
-The data layer contains
-
-```
-builders.js
-
-events.js
-```
-
-Each module exports structured objects that simulate backend responses.
-
-Keeping data isolated from UI components makes future backend integration straightforward.
-
-Replacing mock data with REST or GraphQL responses would require minimal changes to presentation components.
-
----
-
-# Folder Structure
-
-```
-src
-
-├── assets
-│
-├── components
-│   ├── builders
-│   ├── common
-│   ├── dashboard
-│   └── layout
-│
-├── pages
-│   ├── Dashboard
-│   ├── Builders
-│   ├── Scanner
-│   ├── Team
-│   └── Settings
-│
-├── layouts
-│
-├── routes
-│
-├── store
-│
-├── data
-│
-├── hooks
-│
-├── constants
-│
-└── lib
-```
-
----
-
-# Why This Folder Structure?
-
-Instead of grouping files purely by type, the project separates concerns.
-
-**Pages**
-
-Contain orchestration logic.
-
-Pages decide **what** to render.
-
----
-
-**Components**
-
-Contain reusable UI.
-
-Components decide **how** something is rendered.
-
----
-
-**Store**
-
-Contains application state.
-
-Components remain unaware of where data originates.
-
----
-
-**Data**
-
-Contains the application's mock backend.
-
-Future APIs can replace this layer without affecting UI components.
-
----
-
-# Component Communication
-
-The application follows a predictable one-way data flow, ensuring that state changes are easy to understand and debug.
-
-```mermaid
 flowchart LR
-
-A[Page]
-B[Component]
-C[User Action]
-D[Zustand Store]
-E[Updated State]
-F[Component Re-render]
-
-A --> B
-B --> C
-C --> D
-D --> E
-E --> F
+Page --> Component
+Component -->|user action, e.g. "Connect"| Store
+Store --> UpdatedState
+UpdatedState --> Rerender[Only dependent components re-render]
 ```
 
-### Flow Explanation
-
-1. A page renders one or more reusable components.
-2. The user interacts with a component (for example, clicking **Connect Builder**).
-3. The interaction updates the appropriate Zustand store.
-4. The store updates the application state.
-5. Only the components that depend on the updated state are re-rendered.
-
-This predictable one-way data flow keeps the application easy to reason about, minimizes unintended side effects, and simplifies debugging as the project grows.
+A page renders components → a user action (e.g. clicking **Connect**) calls
+into a Zustand store → the store updates → only the components subscribed to
+that slice of state re-render. `BuilderCard` never touches the store
+directly, and the store never imports a component — the two only meet
+through props and selectors, which is what makes each layer independently
+testable and replaceable.
 
 ---
 
-# Design Decisions
+## Architecture decisions
 
-A deliberate decision was made **not** to tightly couple UI components with business logic.
+### 1. Optimistic connects backed by an offline queue, not a rollback
 
-For example:
+When a builder scans a QR code, the connection is written to state and
+rendered **before** any network round trip completes. Two other approaches
+were rejected:
 
-- `BuilderCard` does not know how builders are stored.
-- `Team` does not know how connections are created.
-- `Dashboard` does not own global application state.
+- **Wait for confirmation** — correct, but a multi-second spinner on a
+  handshake that should feel instant is a bad hackathon UX.
+- **Optimistic + rollback on failure** — the connection would flash into
+  existence and then vanish, which reads as a bug, not "still syncing."
 
-Each layer communicates through clearly defined interfaces.
+Instead, a failed or delayed sync pushes the action onto a separate
+`offlineQueueStore` while the builder stays visible with a pending-sync
+indicator. The presentation layer never has to know whether a connection is
+confirmed or queued — it renders the same either way. Reconciliation is the
+sync layer's job, not the UI's.
 
-This reduces coupling and allows features to evolve independently.
+### 2. State is normalized — stores hold IDs, not objects
+
+`connectedBuilders` is `number[]`, not `Builder[]`. The full builder record
+already lives in the data layer; storing a second copy in the Zustand store
+would create two sources of truth that can drift. Every card resolves its
+data via `id → lookup` at render time, so there's exactly one place a
+builder's information can be wrong.
+
+### 3. Zustand over Redux, deliberately
+
+The app has exactly two pieces of state that need to be shared across
+routes: `builderStore` (connections) and `offlineQueueStore` (pending sync).
+Redux's actions/reducers/middleware stack buys nothing at that scale — it
+adds boilerplate without adding correctness. Zustand stores are colocated
+with the features that own them and read like plain functions.
+
+### 4. Strict layer separation: pages orchestrate, components render, stores hold state
+
+- **Pages** decide *what* to show and own data-fetching/orchestration.
+- **Components** decide *how* something looks and take everything through
+  props — `BuilderCard` has no idea whether its data came from a store, a
+  mock file, or a future REST call.
+- **Data** (`data/builders.js`, `data/events.js`) is shaped exactly like a
+  future API response, so swapping mock data for real endpoints touches the
+  data layer only — zero changes to presentation components.
+
+This is enforced by convention rather than tooling, but it's the reason the
+"add a real backend" migration below doesn't require re-architecting.
+
+### 5. Rendering strategy for a ~5,000-row directory
+
+Filtering (search text, skill, sort) is wrapped in `useMemo` so it only
+recomputes when those specific inputs change, not on every render. Global
+state updates are scoped through Zustand selectors so a single builder's
+connection status changing doesn't re-render the other 4,999 cards. Combined,
+this keeps the directory interactive at scale without server-side pagination
+— though that's the first thing added if a real backend goes in (see below).
 
 ---
 
-## Engineering Trade-offs
+## Local setup
 
-During development I prioritized responsiveness and maintainability over unnecessary complexity.
+**Prerequisites:** Node 18+
 
-- Zustand was selected instead of Redux because the application only has two pieces of shared state, making Redux's additional boilerplate unnecessary.
-- Builder connections use optimistic updates to provide immediate feedback, while pending synchronization is tracked separately through an offline queue. This keeps the interface responsive without losing information during temporary network interruptions.
-- Mock data was intentionally used to focus on frontend architecture and interaction design. The data layer is isolated so it can be replaced with REST or GraphQL APIs with minimal changes.
-- The application follows a component-driven architecture where reusable UI components remain independent of business logic, making future features easier to integrate.
-
----
-
-# Data Structures
-
-The application models four primary entities:
-
-1. Builder
-2. Hackathon Event
-3. Connected Builders
-4. Offline Synchronization Queue
-
-The structures were intentionally kept simple because the focus of this challenge is frontend architecture rather than backend persistence.
-
----
-
-# Builder Object
-
-The Builder object represents an individual developer participating in a hackathon.
-
-```javascript
-{
-    id: 124,
-    name: "Aarav Sharma",
-    role: "Frontend Developer",
-    location: "Delhi",
-    avatar: "...",
-    github: "https://github.com/...",
-    skills: [
-        "React",
-        "Tailwind",
-        "TypeScript"
-    ]
-}
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build
 ```
 
-### Why this structure?
-
-Every property corresponds to information directly required by the UI.
-
-The Builder Card consumes the object without needing additional transformations.
-
-Keeping the object flat minimizes unnecessary nesting and simplifies rendering.
+No environment variables or backend are required — the app runs entirely
+against the mock data layer in `src/data/`.
 
 ---
 
-# Event Object
+## Scaling to a burst of 5,000 concurrent interactions
 
-Hackathon events use a similarly lightweight structure.
+**Where the current design already holds up:**
 
-```javascript
-{
-    id: 1,
-    title: "Genesis Summer Hack",
-    date: "15 Aug 2026",
-    participants: 245,
-    mode: "Online"
-}
-```
+- Zustand selectors mean a connection event for one builder doesn't cascade
+  re-renders through the other 4,999 — the cost of an interaction stays
+  constant regardless of directory size.
+- The offline queue means a burst of scans during a Wi-Fi dropout doesn't
+  block the UI or lose data — it just grows a queue that drains once
+  connectivity returns.
 
-The Dashboard consumes these objects directly to render Event Cards.
+**What I'd change before a real burst load against a live backend:**
 
----
+1. **Server-side, cursor-based pagination for the directory.** Right now the
+   full mock dataset is filtered in-memory; at real scale I'd request pages
+   from the API and keep only the visible window (+ buffer) mounted, the
+   same pattern as `TanStack Virtual` but backed by network pages instead of
+   a static array.
+2. **Debounced search (~300ms).** Typing "react" currently could trigger five
+   filter passes; debouncing collapses that to one, and would collapse five
+   API calls to one once search hits a real endpoint.
+3. **Client-side caching of recently viewed builders**, so re-opening a
+   profile or re-entering the directory doesn't re-fetch data that hasn't
+   changed.
+4. **Route-level code splitting**, lazy-loading the QR Scanner (camera
+   libraries are heavy) so it's not in the initial bundle for users who
+   never open it.
+5. **A real sync endpoint behind the offline queue** — `POST /api/connections`
+   with the same optimistic-then-reconcile contract the UI already assumes,
+   so the frontend requires no behavioral change, only a fetch call in place
+   of the mock store update.
+6. **CDN + horizontally scaled API instances** behind a load balancer for
+   the write path, since correctness at that point lives in the backend, not
+   in any single frontend session.
 
-# Connected Builders
-
-Rather than storing entire Builder objects in global state, only Builder IDs are stored.
-
-```javascript
-connectedBuilders = [
-    12,
-    18,
-    42
-]
-```
-
-### Why?
-
-The full builder information already exists inside the Builder dataset.
-
-Duplicating complete objects would create two independent sources of truth.
-
-Instead,
-
-```
-Builder Dataset
-
-↓
-
-Builder ID
-
-↓
-
-Lookup
-
-↓
-
-Builder Card
-```
-
-This keeps state minimal and avoids synchronization issues.
+The reason most of this is additive rather than a rewrite: the frontend was
+already built assuming eventual consistency and a swappable data layer, so
+"add a backend" is a data-layer change, not an architecture change.
 
 ---
 
-# Offline Queue
+## Tech stack
 
-Pending synchronization operations are stored separately.
-
-Example
-
-```javascript
-[
-    {
-        type: "CONNECT",
-        builderId: 42,
-        timestamp: 1752582410
-    }
-]
-```
-
-This queue is intentionally independent from the Builder Store.
-
-The queue represents operations waiting to be synchronized rather than application state.
-
-Separating these concerns prevents synchronization logic from leaking into presentation components.
+| Technology | Why |
+|---|---|
+| React 19 | Component-driven UI, efficient re-rendering |
+| Vite | Fast dev server, optimized production builds |
+| Tailwind CSS | Consistent design tokens, rapid iteration |
+| Zustand | Shared state without Redux boilerplate |
+| React Router | Nested layouts via `MainLayout` + `Outlet` |
+| Framer Motion | Declarative, subtle motion (transitions, hover, reveals) |
+| html5-qrcode | Camera-based QR scanning, no native dependency |
+| Lucide React | Consistent icon system |
 
 ---
 
-# State Management
-
-Builder Match intentionally uses **Zustand** instead of Redux.
-
-The project only contains two pieces of global state.
-
-```
-Builder Store
-
-↓
-
-Connected Builders
-
-↓
-
-Builder Cards
-
-↓
-
-Team Page
-```
-
-and
-
-```
-Offline Queue
-
-↓
-
-Pending Actions
-
-↓
-
-Future Synchronization
-```
-
-Redux would introduce actions, reducers, middleware and additional boilerplate without providing meaningful architectural benefits for a project of this size.
-
-Zustand keeps the stores small, readable and colocated with the features that consume them.
-
----
-
-# Atomic Consistency
-
-One of the more interesting engineering challenges was deciding how optimistic updates should behave when synchronization is delayed.
-
-Suppose a user scans another builder during a hackathon while the network connection is unstable.
-
-There are three possible behaviours.
-
-### Option 1
-
-Do not update the UI until the server confirms success.
-
-Pros
-
-- Strong consistency
-
-Cons
-
-- Slow interaction
-- Poor user experience
-
----
-
-### Option 2
-
-Immediately show the connection, then remove it if synchronization fails.
-
-Pros
-
-- Responsive
-
-Cons
-
-- Confusing
-
-The user experiences a successful interaction that suddenly disappears.
-
----
-
-### Option 3 (Chosen)
-
-Immediately show the connection.
-
-If synchronization cannot happen immediately, place the action inside the offline queue while keeping the builder visible.
-
-```
-User Clicks Connect
-
-↓
-
-Builder Appears
-
-↓
-
-Offline Queue
-
-↓
-
-Retry Later
-```
-
-This keeps the UI responsive while preserving user confidence.
-
-The synchronization layer becomes responsible for eventual consistency rather than the presentation layer.
-
----
-
-# Why this matters
-
-During a real hackathon, rescanning someone's QR code because the UI silently removed the previous connection is significantly worse than temporarily showing a "Pending Sync" indicator.
-
-The application therefore prioritizes user confidence over immediate backend confirmation.
-
----
-
-# Rendering Strategy
-
-The challenge specifies support for approximately **5,000 builders**.
-
-Rendering every Builder Card simultaneously would create thousands of DOM nodes, causing unnecessary work for React and degrading scrolling performance.
-
-Instead, the application uses an optimized rendering strategy so that only the builders relevant to the current interaction are actively processed.
-
-Filtering is memoized using `useMemo`, preventing expensive computations from running on every render.
-
-Global state updates are localized through Zustand so that unrelated components do not re-render when a builder connection changes.
-
-This keeps rendering predictable as the dataset grows.
-
----
-
-# Performance Optimizations
-
-Several optimizations were intentionally introduced during development.
-
-## Memoized Filtering
-
-Builder search is wrapped with `useMemo`.
-
-Without memoization, every state update would recompute filtering across the complete dataset.
-
-Instead,
-
-```
-Search Text Changes
-
-↓
-
-Filter Executes
-
-↓
-
-Memoized Result
-
-↓
-
-Reuse Until Dependencies Change
-```
-
-Only changes to
-
-- search text
-- selected skill
-- sorting
-
-trigger recomputation.
-
----
-
-## Component Reuse
-
-UI components are intentionally generic.
-
-Examples include
-
-- Button
-- Card
-- BuilderCard
-- EventCard
-- SectionHeading
-
-Each component has a single responsibility and receives data through props.
-
-This minimizes duplication while making future changes significantly easier.
-
----
-
-## Minimal Global State
-
-Only shared application state is stored globally.
-
-Everything else remains local to individual pages.
-
-This avoids unnecessary re-renders while keeping components predictable.
-
----
-
-## Lightweight Animations
-
-Animations use Framer Motion only where they improve usability.
-
-Examples include
-
-- page transitions
-- hover interactions
-- section reveals
-
-Animations are deliberately subtle to maintain responsiveness.
-
----
-
-# Scaling to 5,000 Concurrent Interactions
-
-The challenge specifically asks how the application would scale during a sudden burst of approximately **5,000 concurrent interactions**.
-
-While the current project uses mock data, the frontend architecture was designed so that introducing a production backend would require minimal structural changes.
-
-Several strategies would support this scale.
-
-## Server-side Pagination
-
-Instead of downloading every builder at once, the frontend would request builders in pages.
-
-```
-Client
-
-↓
-
-API
-
-↓
-
-Page 1
-
-↓
-
-Next Page
-
-↓
-
-Next Page
-```
-
-This keeps memory usage predictable regardless of total dataset size.
-
----
-
-## Debounced Search
-
-Search requests would be delayed by approximately 300 milliseconds.
-
-Instead of
-
-```
-r
-
-↓
-
-re
-
-↓
-
-rea
-
-↓
-
-reac
-
-↓
-
-react
-```
-
-triggering five expensive operations,
-
-only the final input would execute.
-
-This reduces unnecessary work while improving perceived responsiveness.
-
----
-
-## Client-side Caching
-
-Recently viewed builders would remain cached locally.
-
-Repeated navigation would therefore avoid redundant network requests.
-
----
-
-## Optimistic UI
-
-Builder connections should continue appearing immediately.
-
-Synchronization should occur asynchronously.
-
-Users receive instant feedback while backend consistency is handled separately.
-
----
-
-## Lazy Loading
-
-Heavy routes such as the QR Scanner would be loaded only when visited.
-
-This reduces the initial JavaScript bundle and improves startup performance.
-
----
-
-## Future Backend Scaling
-
-With a production backend, the following architecture would be introduced.
-
-```
-Client
-
-↓
-
-CDN
-
-↓
-
-Load Balancer
-
-↓
-
-Multiple API Instances
-
-↓
-
-Redis Cache
-
-↓
-
-Database
-```
-
-This allows frontend performance to remain stable while backend capacity scales horizontally during large hackathon events.
-
----
-
-# Reflection
-
-The primary goal of Builder Match was not simply to render attractive interfaces.
-
-Instead, the project was approached as an exercise in frontend systems design.
-
-Many implementation decisions—optimistic updates, isolated synchronization state, reusable components, and modular architecture—were driven by how the application would behave under realistic usage rather than by visual requirements alone.
-
-While the current version uses mock data, the architecture intentionally leaves clear extension points for integrating real authentication, APIs, and synchronization without requiring major changes to the presentation layer.
+## What this project demonstrates
+
+Not isolated React knowledge, but the engineering decisions behind a frontend
+that has to behave correctly under bad network conditions and a growing
+dataset: optimistic UI with a real reconciliation strategy, normalized state,
+memoized rendering, and a folder structure that keeps a future backend
+migration to a data-layer change instead of a rewrite.
