@@ -535,19 +535,14 @@ This reduces coupling and allows features to evolve independently.
 
 ---
 
-# Trade-offs
+## Engineering Trade-offs
 
-One important architectural trade-off involved optimistic updates.
+During development I prioritized responsiveness and maintainability over unnecessary complexity.
 
-A builder connection is shown immediately after the user clicks **Connect**, even before synchronization is complete.
-
-Instead of reverting the UI if synchronization is delayed, the action is retained and placed into the offline synchronization queue.
-
-This avoids confusing the user by making successful interactions appear to disappear.
-
-The UI therefore prioritizes **user confidence**, while the synchronization layer is responsible for eventual consistency.
-
-This separation of concerns keeps the presentation layer simple while allowing synchronization logic to evolve independently if a backend is introduced later.
+- Zustand was selected instead of Redux because the application only has two pieces of shared state, making Redux's additional boilerplate unnecessary.
+- Builder connections use optimistic updates to provide immediate feedback, while pending synchronization is tracked separately through an offline queue. This keeps the interface responsive without losing information during temporary network interruptions.
+- Mock data was intentionally used to focus on frontend architecture and interaction design. The data layer is isolated so it can be replaced with REST or GraphQL APIs with minimal changes.
+- The application follows a component-driven architecture where reusable UI components remain independent of business logic, making future features easier to integrate.
 
 ---
 
