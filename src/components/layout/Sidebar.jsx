@@ -39,11 +39,11 @@ const links = [
 
 function Sidebar() {
   return (
-    <aside className="hidden lg:flex w-72 flex-col rounded-r-3xl border-r border-[var(--border)] bg-white px-6 py-8">
+    <aside className="hidden lg:flex w-64 flex-col rounded-r-3xl border-r border-[var(--border)] bg-white px-6 py-8">
 
       <Logo />
 
-      <nav className="mt-12 flex flex-col gap-3">
+      <nav className="mt-12 flex flex-col gap-4">
 
         {links.map((item) => {
           const Icon = item.icon;
