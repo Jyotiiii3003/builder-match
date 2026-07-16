@@ -1,9 +1,26 @@
 import { Outlet } from "react-router-dom";
 
+import Sidebar from "../components/layout/Sidebar";
+import Header from "../components/layout/Header";
+
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-[#FAF8FF]">
-      <Outlet />
+    <div className="flex min-h-screen bg-[var(--bg)]">
+
+      <Sidebar />
+
+      <div className="flex flex-1 flex-col">
+
+        <Header />
+
+        <main className="flex-1 p-8">
+
+          <Outlet />
+
+        </main>
+
+      </div>
+
     </div>
   );
 }

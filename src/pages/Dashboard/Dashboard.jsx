@@ -1,9 +1,16 @@
 function Dashboard() {
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-semibold text-[#2D2A3A]">
-        Dashboard
+    <div>
+
+      <h1 className="font-['Poppins'] text-4xl font-semibold text-[var(--text)]">
+        Welcome Back
       </h1>
+
+      <p className="mt-3 max-w-xl text-lg leading-8 text-[var(--text-muted)]">
+        Discover talented builders, connect instantly, and build your
+        dream hackathon team.
+      </p>
+
     </div>
   );
 }
