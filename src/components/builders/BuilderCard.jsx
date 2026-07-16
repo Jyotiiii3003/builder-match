@@ -1,84 +1,156 @@
+import { motion } from "framer-motion";
 import {
-  MapPin,
-  BriefcaseBusiness,
-  CircleCheck,
+  MapPin, 
   Globe,
+  Link2,
+  Check,
+  Clock,
 } from "lucide-react";
-import useBuilderStore from "../../store/useBuilderStore";
-import Card from "../common/Card/Card";
+
 import Button from "../common/Button/Button";
+import Card from "../common/Card/Card";
+
+import useBuilderStore from "../../store/useBuilderStore";
 
 function BuilderCard({ builder }) {
   const { connectedBuilders, connectBuilder } = useBuilderStore();
 
-const connected = connectedBuilders.includes(builder.id);
+  const connected = connectedBuilders.includes(builder.id);
+
   return (
-    <Card className="group">
+    <div className="transition-transform duration-300 hover:-translate-y-2">
+      <Card className="group h-full overflow-hidden">
 
-      <div className="flex items-start justify-between">
+        {/* Top */}
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-start justify-between">
 
-          <img
-            src={builder.avatar}
-            alt={builder.name}
-            className="h-16 w-16 rounded-2xl border border-[var(--border)]"
+          <div className="flex items-center gap-4">
+
+            <img
+              src={builder.avatar}
+              alt={builder.name}
+              className="h-16 w-16 rounded-2xl border border-[var(--border)] object-cover"
+            />
+
+            <div>
+
+              <h3 className="font-['Sora'] text-xl font-semibold text-[var(--text)]">
+                {builder.name}
+              </h3>
+
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
+                {builder.role}
+              </p>
+
+            </div>
+
+          </div>
+
+          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+            Available
+          </span>
+
+        </div>
+
+        {/* Location */}
+
+        <div className="mt-6 flex items-center gap-2 text-sm text-[var(--text-muted)]">
+
+          <MapPin
+            size={16}
+            className="text-[var(--primary)]"
           />
 
-          <div>
-            <h3 className="font-['Poppins'] text-xl font-semibold text-[var(--text)]">
-              {builder.name}
-            </h3>
+          {builder.location}
 
-            <div className="mt-1 flex items-center gap-2 text-sm text-[var(--text-muted)]">
-              <BriefcaseBusiness size={14} />
-              {builder.role}
+        </div>
+
+        {/* Skills */}
+
+        <div className="mt-6 flex flex-wrap gap-2">
+
+          {builder.skills.map((skill) => (
+
+            <span
+              key={skill}
+              className="rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-700"
+            >
+              {skill}
+            </span>
+
+          ))}
+
+        </div>
+
+        {/* Availability */}
+
+        <div className="mt-6 rounded-2xl bg-[var(--primary-light)] p-4">
+
+          <div className="flex items-center justify-between">
+
+            <div>
+
+              <p className="text-sm font-semibold">
+                Looking for Team
+              </p>
+
+              <p className="mt-1 text-xs text-[var(--text-muted)]">
+                Available for upcoming Genesis hackathons.
+              </p>
+
             </div>
 
-            <div className="mt-1 flex items-center gap-2 text-sm text-[var(--text-muted)]">
-              <MapPin size={14} />
-              {builder.location}
-            </div>
+            <Clock
+              size={18}
+              className="text-[var(--primary)]"
+            />
 
           </div>
 
         </div>
 
-        <span className="flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-600">
-          <CircleCheck size={12} />
-          Available
-        </span>
+        {/* Footer */}
 
-      </div>
+        <div className="mt-8 flex gap-3">
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {builder.skills.map((skill) => (
-          <span
-            key={skill}
-            className="rounded-full bg-[var(--primary-light)] px-3 py-1 text-xs font-medium text-[var(--primary)]"
+          <Button
+            className="flex-1"
+            variant={connected ? "secondary" : "primary"}
+            onClick={() => connectBuilder(builder.id)}
           >
-            {skill}
-          </span>
-        ))}
-      </div>
+            {connected ? (
+              <>
+                <Check
+                  size={16}
+                  className="mr-2"
+                />
+                Connected
+              </>
+            ) : (
+              <>
+                <Link2
+                  size={16}
+                  className="mr-2"
+                />
+                Connect
+              </>
+            )}
+          </Button>
 
-      <div className="mt-6 flex items-center justify-between">
-
-        <button className="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--primary)]">
-          <Globe size={18} />
-          Portfolio
-        </button>
-
-        <Button
-          onClick={() => connectBuilder(builder.id)}
-          variant={connected ? "secondary" : "primary"}
+          <a
+            href={builder.github}
+            target="_blank"
+            rel="noreferrer"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
           >
-          {connected ? "Connected" : "Connect"}
-        </Button>
+            <Globe size={18} />
+          </a>
 
-      </div>
+        </div>
 
-    </Card>
+      </Card>
+    </div>
   );
 }
 

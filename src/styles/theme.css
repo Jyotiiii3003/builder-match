@@ -1,20 +1,19 @@
 :root {
-  --bg: #faf8ff;
+  --bg: #fcfbff;
   --surface: #ffffff;
 
   --primary: #8b7cf8;
   --primary-light: #ede9fe;
 
-  --accent: #7dd3fc;
+  --secondary: #a5f3fc;
 
   --text: #2d2a3a;
   --text-muted: #7b7890;
 
-  --border: #e8e4f5;
+  --border: #ece8fb;
 
-  --success: #b7f7d8;
-  --warning: #fde68a;
-  --danger: #fecaca;
+  --success: #22c55e;
+  --warning: #f59e0b;
 
-  --shadow: 0 8px 30px rgba(139, 124, 248, 0.08);
+  --shadow: 0 12px 40px rgba(139, 124, 248, 0.08);
 }
