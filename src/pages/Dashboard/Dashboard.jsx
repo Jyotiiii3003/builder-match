@@ -1,60 +1,44 @@
-import Button from "../../components/common/Button/Button";
+import HeroSection from "../../components/dashboard/HeroSection";
 import SectionHeading from "../../components/common/SectionHeading/SectionHeading";
-
 import StatCard from "../../components/dashboard/StatCard";
 import BuilderCard from "../../components/builders/BuilderCard";
-
 import builders from "../../data/builders";
 
 function Dashboard() {
   return (
-    <div>
+    <div className="space-y-12">
 
-      <SectionHeading
-        title="Find your next hackathon teammate"
-        subtitle="Discover developers, designers and blockchain builders for your next event."
-      />
+      <HeroSection />
 
-      <div className="mt-8 flex gap-4">
+      <section>
+        <SectionHeading
+          title="Platform Overview"
+          subtitle="Your activity at a glance."
+        />
 
-        <Button>
-          Explore Builders
-        </Button>
+        <div className="grid grid-cols-4 gap-6">
+          <StatCard title="Builders" value="2,540" />
+          <StatCard title="Connections" value="18" />
+          <StatCard title="Events" value="12" />
+          <StatCard title="Pending Sync" value="4" />
+        </div>
+      </section>
 
-        <Button variant="secondary">
-          Scan Builder QR
-        </Button>
-
-      </div>
-
-      <div className="mt-10 grid grid-cols-4 gap-6">
-
-        <StatCard title="Builders" value="2,540" />
-        <StatCard title="Connections" value="18" />
-        <StatCard title="Events" value="12" />
-        <StatCard title="Pending Sync" value="4" />
-
-      </div>
-
-      <div className="mt-14">
-
+      <section>
         <SectionHeading
           title="Featured Builders"
-          subtitle="Recommended based on your interests."
+          subtitle="Recommended for your next hackathon."
         />
 
         <div className="grid grid-cols-3 gap-6">
-
           {builders.map((builder) => (
             <BuilderCard
               key={builder.id}
               builder={builder}
             />
           ))}
-
         </div>
-
-      </div>
+      </section>
 
     </div>
   );
