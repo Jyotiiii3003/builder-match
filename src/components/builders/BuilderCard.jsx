@@ -2,7 +2,7 @@ import {
   MapPin,
   BriefcaseBusiness,
   CircleCheck,
-  Github,
+  Globe,
 } from "lucide-react";
 
 import Card from "../common/Card/Card";
@@ -62,7 +62,7 @@ function BuilderCard({ builder }) {
       <div className="mt-6 flex items-center justify-between">
 
         <button className="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--primary)]">
-          <Github size={18} />
+          <Globe size={18} />
           Portfolio
         </button>
 

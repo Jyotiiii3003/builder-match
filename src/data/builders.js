@@ -23,6 +23,46 @@ const builders = [
     skills: ["Figma", "Design Systems", "Prototyping"],
     avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Rohan",
   },
+  {
+    id: 4,
+    name: "Priya Singh",
+    role: "Backend Engineer",
+    location: "Pune",
+    skills: ["Node.js", "Express", "MongoDB"],
+    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Priya",
+  },
+  {
+    id: 5,
+    name: "Kabir Mehta",
+    role: "AI Engineer",
+    location: "Hyderabad",
+    skills: ["Python", "TensorFlow", "FastAPI"],
+    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Kabir",
+  },
+  {
+    id: 6,
+    name: "Ananya Roy",
+    role: "Flutter Developer",
+    location: "Kolkata",
+    skills: ["Flutter", "Firebase", "Dart"],
+    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Ananya",
+  },
+  {
+    id: 7,
+    name: "Aditya Verma",
+    role: "Full Stack Developer",
+    location: "Noida",
+    skills: ["React", "Node.js", "PostgreSQL"],
+    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Aditya",
+  },
+  {
+    id: 8,
+    name: "Neha Joshi",
+    role: "DevOps Engineer",
+    location: "Chennai",
+    skills: ["Docker", "AWS", "Kubernetes"],
+    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Neha",
+  },
 ];
 
 export default builders;

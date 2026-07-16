@@ -5,6 +5,7 @@ const events = [
     date: "15 Aug 2026",
     participants: 245,
     mode: "Online",
+    color: "bg-violet-100",
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ const events = [
     date: "28 Aug 2026",
     participants: 182,
     mode: "Hybrid",
+    color: "bg-cyan-100",
   },
 ];
 
